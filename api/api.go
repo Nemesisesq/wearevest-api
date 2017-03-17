@@ -5,6 +5,7 @@ import (
 	"github.com/graphql-go/graphql"
 	"encoding/json"
 	log"github.com/Sirupsen/logrus"
+	"github.com/nemesisesq/wearevest/fitness_test"
 )
 
 var Schema graphql.Schema
@@ -22,6 +23,14 @@ func init() {
 				return "world", nil
 			},
 		},
+
+		"questions" : &graphql.Field{
+			Type: questionsType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error){
+				fitness_test.GetTest(p)
+			},
+		},
+
 	}
 	queryType = graphql.NewObject(graphql.ObjectConfig{Name: "RootQuery", Fields: fields})
 
@@ -43,7 +52,7 @@ func GraphqlHandler(w http.ResponseWriter, r *http.Request) {
 	result := graphql.Do(graphql.Params{
 		Schema:        Schema,
 		RequestString: r.URL.Query()["query"][0],
-		//Context:      r.WithContext(context.Background(), "currentUser", user),
+		Context:      r.Context(),
 	})
 	if len(result.Errors) > 0 {
 		log.Printf("wrong result, unexpected errors: %v", result.Errors)
