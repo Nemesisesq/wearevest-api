@@ -1,9 +1,9 @@
 package fitness_test
 
 import (
-	"github.com/compose/transporter/Godeps/_workspace/src/gopkg.in/mgo.v2"
+
 	"context"
-	//"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2"
 )
 
 func GetTest(context context.Context) []map[string]interface{} {

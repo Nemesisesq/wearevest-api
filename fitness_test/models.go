@@ -2,8 +2,10 @@ package fitness_test
 
 import (
 	"github.com/satori/go.uuid"
-	"github.com/compose/transporter/Godeps/_workspace/src/gopkg.in/mgo.v2"
+	"github.com/fatih/structs"
 	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2"
+	"encoding/json"
 )
 
 type Answer struct {
@@ -32,9 +34,26 @@ type User struct {
 }
 
 type Interchange struct {
+	UUID   uuid.UUID `json:"uuid" bson:"uuid"`
 	Q      Question`json:"q" bson:"q"`
 	A      Answer`json:"a" bson:"a"`
 	Result Result `json:"result" bson:"result"`
+}
+
+func (i *Interchange) prepare(db *mgo.Database) map[string]interface{} {
+
+	return structs.Map(i)
+}
+
+func (i *Interchange) collection() string {
+
+	return "interchanges"
+}
+
+func (i *Interchange) getUUID() string {
+
+	return i.UUID.String()
+
 }
 
 type Result struct {
@@ -42,50 +61,20 @@ type Result struct {
 	WeightedScore float64`json:"weighted_score" bson:"weighted_score"`
 }
 
-type Test struct {
-	UUID         uuid.UUID`json:"uuid" bson:"uuid"`
-	Interchanges []Interchange`json:"interchanges" bson:"interchanges"`
-	User         User `json:"user" bson:"user"`
-	Result       Result`json:"result" bson:"result"`
-}
-
-func (t *Test) prepare(db *mgo.Database) ( m map[string]interface{}) {
-
-
-	for _, v := range t.Interchanges {
-		Update(v, db)
-	}
-
-
-	return m
-}
-
-func (t *Test) collection() string {
-	return "tests"
-}
-
-func (t *Test) GetUUID() string {
-	return t.UUID.String()
-}
-
-func (t Test) ComputeTotalScores() {
-	for _, v := range t.Interchanges {
-		t.Result.RawScore += v.Result.RawScore
-	}
-
-	for _, v := range t.Interchanges {
-		t.Result.WeightedScore += v.Result.WeightedScore
-	}
-}
-
+/*
+Updater type
+*/
 type Updater interface {
-	prepare() map[string]interface{}
+	prepare(db *mgo.Database) map[string]interface{}
 	collection() string
 	getUUID() string
 }
 
+/*
+Updater Methods
+*/
 func Update(updater Updater, db *mgo.Database) {
-	db.C(updater.collection()).Upsert(bson.M{"uuid": updater.getUUID()}, updater.prepare() )
+	db.C(updater.collection()).Upsert(bson.M{"uuid": updater.getUUID()}, updater.prepare(db))
 }
 
 type Inflater interface {
