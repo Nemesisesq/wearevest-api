@@ -27,7 +27,8 @@ func init() {
 		"questions" : &graphql.Field{
 			Type: questionsType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error){
-				fitness_test.GetTest(p)
+
+				return fitness_test.GetQuestions(p.Context), nil
 			},
 		},
 

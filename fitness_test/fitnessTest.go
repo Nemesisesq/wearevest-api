@@ -4,9 +4,10 @@ import (
 
 	"context"
 	"gopkg.in/mgo.v2"
+	"github.com/nemesisesq/wearevest/fitness_test/models"
 )
 
-func GetTest(context context.Context) []map[string]interface{} {
+func GetQuestions(context context.Context) []map[string]interface{} {
 
 
 	questions := []map[string]interface{}{}
@@ -22,7 +23,7 @@ func GetTest(context context.Context) []map[string]interface{} {
 
 }
 
-func ComputeFitnessTestResults(test Test) {
+func ComputeFitnessTestResults(test fitness_test.Test) {
 	for _, v := range test.Interchanges {
 		v.Result.RawScore = v.A.Score
 		v.Result.WeightedScore = v.A.Score * v.Q.Weight
