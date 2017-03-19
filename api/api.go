@@ -5,38 +5,24 @@ import (
 	"github.com/graphql-go/graphql"
 	"encoding/json"
 	log"github.com/Sirupsen/logrus"
-	"github.com/nemesisesq/wearevest/fitness_test"
 )
 
 var Schema graphql.Schema
 
-var fields graphql.Fields
+
 
 var queryType *graphql.Object
 
+var mutationType *graphql.Object
+
 func init() {
 
-	fields = graphql.Fields{
-		"hello": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return "world", nil
-			},
-		},
-
-		"questions" : &graphql.Field{
-			Type: questionsType,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error){
-
-				return fitness_test.GetQuestions(p.Context), nil
-			},
-		},
-
-	}
-	queryType = graphql.NewObject(graphql.ObjectConfig{Name: "RootQuery", Fields: fields})
+	queryType = graphql.NewObject(graphql.ObjectConfig{Name: "RootQuery", Fields: queryFields})
+	mutationType = graphql.NewObject(graphql.ObjectConfig{Name: "RootMutation", Fields: mutationFields })
 
 	s, err := graphql.NewSchema(graphql.SchemaConfig{
 		Query: queryType,
+		Mutation: mutationType,
 	})
 	if err != nil {
 		log.Fatalf("failed to create schema, error: %v", err)
@@ -50,9 +36,11 @@ func GraphqlHandler(w http.ResponseWriter, r *http.Request) {
 	//	ID   int    `json:"id"`
 	//	Name string `json:"name"`
 	//}{1, "cool user"}
+
+	query :=r.URL.Query()["query"][0]
 	result := graphql.Do(graphql.Params{
 		Schema:        Schema,
-		RequestString: r.URL.Query()["query"][0],
+		RequestString: query,
 		Context:      r.Context(),
 	})
 	if len(result.Errors) > 0 {

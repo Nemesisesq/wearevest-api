@@ -4,7 +4,7 @@ import (
 	"github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2"
 	"github.com/nemesisesq/wearevest/shared/models"
-	"github.com/nemesisesq/wearevest/fitness_test"
+
 )
 
 type Test struct {
@@ -35,7 +35,7 @@ func (t *Test) prepare(db *mgo.Database) interface{} {
 
 	interchanges := []uuid.UUID{}
 	for _, v := range t.Interchanges {
-		fitness_test.Update(v, db)
+		Update(v, db)
 		interchanges = append(interchanges, v.UUID)
 	}
 
@@ -45,11 +45,11 @@ func (t *Test) prepare(db *mgo.Database) interface{} {
 	return *prepped
 }
 
-func (t *Test) collection() string {
+func (t Test) collection() string {
 	return "tests"
 }
 
-func (t *Test) getUUID() string {
+func (t Test) getUUID() string {
 	return t.UUID.String()
 }
 

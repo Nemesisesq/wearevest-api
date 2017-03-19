@@ -29,10 +29,10 @@ func main() {
 
 	port := "8080"
 	//	Routes:
-	r := mux.NewRouter().StrictSlash(false)
+	r := mux.NewRouter()
 
 	//	Root 'home' route
-	r.HandleFunc("/", HomeHandler)
+	//r.HandleFunc("/", HomeHandler)
 
 	n := negroni.Classic()
 
@@ -81,6 +81,8 @@ func main() {
 	post.Methods("DELETE").HandlerFunc(PostDeleteHandler)
 
 	fmt.Println("Starting server on :" + port)
+
+	n.UseHandler(r)
 	log.Fatal(http.ListenAndServe(":" + port, n))
 }
 

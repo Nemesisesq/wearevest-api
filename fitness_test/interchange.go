@@ -19,18 +19,18 @@ type interchange struct {
 	Result Result `json:"result" bson:"result"`
 }
 
-func (i *Interchange) prepare(db *mgo.Database) interface{} {
+func (i Interchange) prepare(db *mgo.Database) interface{} {
 
 	prepped := &interchange{i.UUID, i.Q.UUID, i.A, i.Result}
 	return *prepped
 }
 
-func (i *Interchange) collection() string {
+func (i Interchange) collection() string {
 
 	return "interchanges"
 }
 
-func (i *Interchange) getUUID() string {
+func (i Interchange) getUUID() string {
 
 	return i.UUID.String()
 
