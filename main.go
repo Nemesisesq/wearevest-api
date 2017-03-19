@@ -41,7 +41,7 @@ func main() {
 	n.Use(middleware.NewDatabase(*MGO).Middleware())
 
 	r.HandleFunc("/", HomeHandler)
-	r.HandleFunc("/graphql", api.GraphqlHandler)
+	r.Handle("/graphql", api.H)
 
 
 

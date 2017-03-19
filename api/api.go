@@ -5,6 +5,7 @@ import (
 	"github.com/graphql-go/graphql"
 	"encoding/json"
 	log"github.com/Sirupsen/logrus"
+	"github.com/graphql-go/handler"
 )
 
 var Schema graphql.Schema
@@ -30,6 +31,12 @@ func init() {
 
 	Schema = s
 }
+
+var H = handler.New(&handler.Config{
+
+Schema: &Schema,
+Pretty: true,
+})
 
 func GraphqlHandler(w http.ResponseWriter, r *http.Request) {
 	//user := struct {
