@@ -14,13 +14,13 @@ import (
 
 var RM *middleware.RedisAccessor
 var RMQ *middleware.RabbitMQAccessor
-//var MGO *middleware.DatabaseAccessor
+var MGO *middleware.DatabaseAccessor
 
 func init(){
 	//Set up middleware
 	//RM, _ = middleware.NewRedisAccessor(os.Getenv("REDIS_URI"), "", 1)
 	//RMQ, _ = middleware.NewRabbitMQAccessor(os.Getenv("RABITMQ_URI"))
-	//MGO, _ = middleware.NewDatabaseAccessor(os.Getenv("MONGODB_URI"), os.Getenv("MONGODB_NAME"), os.Getenv("MONGODB_COLL"))
+	MGO, _ = middleware.NewDatabaseAccessor(os.Getenv("MONGODB_URI"), os.Getenv("MONGODB_NAME"), os.Getenv("MONGODB_COLL"))
 
 }
 
@@ -37,7 +37,7 @@ func main() {
 
 	//n.Use(middleware.NewRedisClient(*RM).Middleware())
 	//n.Use(middleware.NewRabbitMQConnection(*RMQ).Middleware())
-	//n.Use(middleware.NewDatabase(*MGO).Middleware())
+	n.Use(middleware.NewDatabase(*MGO).Middleware())
 
 	r.HandleFunc("/", HomeHandler)
 	r.Handle("/graphql", api.H)
