@@ -3,7 +3,7 @@ package fitness_test
 import (
 	"github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2"
-	"github.com/nemesisesq/wearevest/shared/models"
+	"github.com/nemesisesq/wearevest-api/shared/models"
 
 )
 
