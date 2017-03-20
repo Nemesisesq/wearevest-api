@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"github.com/nemesisesq/middleware"
 	"os"
-	"github.com/nemesisesq/wearevest/api"
+	"github.com/nemesisesq/wearevest-api/api"
 )
 
 

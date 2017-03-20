@@ -13,15 +13,15 @@ type Interchange struct {
 }
 
 type interchange struct {
-	UUID uuid.UUID `json:"uuid" bson:"uuid"`
+	UUID   uuid.UUID `json:"uuid" bson:"uuid"`
 	Q      uuid.UUID`json:"q" bson:"q"`
-	A      Answer`json:"a" bson:"a"`
+	A      uuid.UUID `json:"a" bson:"a"`
 	Result Result `json:"result" bson:"result"`
 }
 
 func (i Interchange) prepare(db *mgo.Database) interface{} {
 
-	prepped := &interchange{i.UUID, i.Q.UUID, i.A, i.Result}
+	prepped := &interchange{i.UUID, i.Q.UUID, i.A.UUID, i.Result}
 	return *prepped
 }
 

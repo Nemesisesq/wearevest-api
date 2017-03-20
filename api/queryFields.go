@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/graphql-go/graphql"
-	"github.com/nemesisesq/wearevest/fitness_test"
+	"github.com/nemesisesq/wearevest-api/fitness_test"
 )
 
 var queryFields = graphql.Fields{

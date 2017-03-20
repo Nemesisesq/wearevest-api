@@ -12,7 +12,7 @@ type Question struct {
 
 
 type Answer struct {
-	UID   uuid.UUID
+	UUID   uuid.UUID
 	Text  string `json:"text" bson:"text"`
 	Score float64 `json:"score" bson:"score"`
 }
