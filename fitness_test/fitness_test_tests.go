@@ -195,13 +195,13 @@ func TestTest_prepare(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t := &Test{
+			to := &Test{
 				UUID:         tt.fields.UUID,
 				Interchanges: tt.fields.Interchanges,
 				User:         tt.fields.User,
 				Result:       tt.fields.Result,
 			}
-			if got := t.prepare(tt.args.db); !reflect.DeepEqual(got, tt.want) {
+			if got := to.prepare(tt.args.db); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Test.prepare() = %v, want %v", got, tt.want)
 			}
 		})
@@ -224,13 +224,13 @@ func TestTest_collection(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t := Test{
+			to := Test{
 				UUID:         tt.fields.UUID,
 				Interchanges: tt.fields.Interchanges,
 				User:         tt.fields.User,
 				Result:       tt.fields.Result,
 			}
-			if got := t.collection(); got != tt.want {
+			if got := to.collection(); got != tt.want {
 				t.Errorf("Test.collection() = %v, want %v", got, tt.want)
 			}
 		})
@@ -253,13 +253,13 @@ func TestTest_getUUID(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t := Test{
+			to := Test{
 				UUID:         tt.fields.UUID,
 				Interchanges: tt.fields.Interchanges,
 				User:         tt.fields.User,
 				Result:       tt.fields.Result,
 			}
-			if got := t.getUUID(); got != tt.want {
+			if got := to.getUUID(); got != tt.want {
 				t.Errorf("Test.getUUID() = %v, want %v", got, tt.want)
 			}
 		})
@@ -281,13 +281,13 @@ func TestTest_ComputeTotalScores(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t := Test{
+			to := Test{
 				UUID:         tt.fields.UUID,
 				Interchanges: tt.fields.Interchanges,
 				User:         tt.fields.User,
 				Result:       tt.fields.Result,
 			}
-			t.ComputeTotalScores()
+			to.ComputeTotalScores()
 		})
 	}
 }
