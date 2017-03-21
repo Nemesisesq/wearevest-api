@@ -9,6 +9,8 @@ import (
 	"github.com/nemesisesq/middleware"
 	"os"
 	"github.com/nemesisesq/wearevest-api/api"
+	"github.com/joho/godotenv"
+	"github.com/Sirupsen/logrus"
 )
 
 
@@ -17,14 +19,29 @@ var RMQ *middleware.RabbitMQAccessor
 var MGO *middleware.DatabaseAccessor
 
 func init(){
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	//Set up middleware
 	//RM, _ = middleware.NewRedisAccessor(os.Getenv("REDIS_URI"), "", 1)
 	//RMQ, _ = middleware.NewRabbitMQAccessor(os.Getenv("RABITMQ_URI"))
-	MGO, _ = middleware.NewDatabaseAccessor(os.Getenv("MONGODB_URI"), os.Getenv("MONGODB_NAME"), os.Getenv("MONGODB_COLL"))
+	mongoDbURI := os.Getenv("MONGODB_URI")
+	mongoDbName := os.Getenv("MONGODB_NAME")
+	mongoDbColl := os.Getenv("MONGODB_COLL")
+
+	logrus.Info(mongoDbURI)
+	MGO, err = middleware.NewDatabaseAccessor(mongoDbURI, mongoDbName, mongoDbColl)
+	if err != nil {
+		logrus.Error(err)
+	}
 
 }
 
 func main() {
+
 
 	port := "8080"
 	//	Routes:
