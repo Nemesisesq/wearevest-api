@@ -3,7 +3,7 @@ package fitness_test
 import (
 	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/mgo.v2"
-	"github.com/nu7hatch/gouuid"
+	"github.com/satori/go.uuid"
 )
 
 
